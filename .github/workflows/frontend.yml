@@ -54,19 +54,8 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./src/frontend
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: |
             ${{ steps.login-ecr.outputs.registry }}/microservices-demo/frontend:latest
             ${{ steps.login-ecr.outputs.registry }}/microservices-demo/frontend:${{ github.sha }}
-
-      # - name: Build, tag, and push docker image to Amazon ECR
-      #   # if: steps.changes.outputs.src == 'true'
-      #   working-directory: ./src/frontend
-      #   env:
-      #     REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-      #     REPOSITORY: microservices-demo/frontend
-      #     IMAGE_TAG: ${{ github.sha }}
-      #   run: |
-      #     docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG -t $REGISTRY/$REPOSITORY:latest .
-      #     docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
-      #     docker push $REGISTRY/$REPOSITORY:latest
