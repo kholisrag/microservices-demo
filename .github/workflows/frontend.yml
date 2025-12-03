@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-    # paths:
-    #   - "src/frontend/**"
+    paths:
+      - "src/frontend/**"
 
 permissions:
   contents: read
@@ -50,6 +50,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
+          context: ./src/frontend
           push: true
           tags: |
             ${{ secrets.ECR_REGISTRY }}/microservices-demo/frontend:latest
