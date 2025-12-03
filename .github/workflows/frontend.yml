@@ -36,6 +36,9 @@ jobs:
           role-to-assume: ${{ secrets.AWS_GHA_OIDC_ROLE }}
           aws-region: ${{ secrets.AWS_REGION }}
 
+      - name: Set up Docker
+        uses: docker/setup-docker-action@v4
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -53,8 +56,8 @@ jobs:
           context: ./src/frontend
           push: true
           tags: |
-            ${{ secrets.ECR_REGISTRY }}/microservices-demo/frontend:latest
-            ${{ secrets.ECR_REGISTRY }}/microservices-demo/frontend:${{ github.sha }}
+            ${{ steps.login-ecr.outputs.registry }}/microservices-demo/frontend:latest
+            ${{ steps.login-ecr.outputs.registry }}/microservices-demo/frontend:${{ github.sha }}
 
       # - name: Build, tag, and push docker image to Amazon ECR
       #   # if: steps.changes.outputs.src == 'true'
