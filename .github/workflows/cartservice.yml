@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - main
-    # paths:
-    #   - "src/cartservice/**"
+    paths:
+      - "src/cartservice/**"
+      - ".github/workflows/cartservice.yml"
 
 permissions:
   contents: read
@@ -17,20 +18,7 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v6
-
-      # - uses: dorny/paths-filter@v3
-      #   id: changes
-      #   with:
-      #     filters: |
-      #       src:
-      #         - 'src/cartservice/**'
-
-      # - name: Check for files changed
-      #   if: steps.changes.outputs.src == 'true'
-      #   run: echo "Files changed"
-
       - name: Configure AWS credentials
-        # if: steps.changes.outputs.src == 'true'
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_GHA_OIDC_ROLE }}
@@ -46,7 +34,6 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - name: Login to Amazon ECR
-        # if: steps.changes.outputs.src == 'true'
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
